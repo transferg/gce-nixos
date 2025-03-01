@@ -1,7 +1,7 @@
 .DEFAULT_GOAL = help
 
 export PROJECT_ID = servergeneral-dev
-export BUCKET = nixos-image
+export BUCKET = nixos-image-sg
 export NIXPKGS_ALLOW_UNFREE = 1
 export BRANCH = unstable
 
@@ -13,8 +13,8 @@ image: check nixpkgs
 nixpkgs: ## clone nixpkgs
 	git clone --depth=1 --branch nixos-$(BRANCH) https://github.com/NixOS/nixpkgs.git
 
-init: ## initialize bucket and other dependencies
-	gcloud storage buckets create gs://nixos-image
+bucket: ## create bucket nixos-image
+	gcloud storage buckets create gs://$(BUCKET)
 
 login: ## login to GCP
 	gcloud auth login
