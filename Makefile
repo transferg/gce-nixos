@@ -7,7 +7,7 @@ export BRANCH = unstable
 
 image: ## build gce image
 image: export BUCKET_NAME=$(BUCKET)
-image: nixpkgs
+image: check nixpkgs
 	nixpkgs/nixos/maintainers/scripts/gce/create-gce.sh
 
 nixpkgs: ## clone nixpkgs
@@ -29,3 +29,9 @@ dev: ## develop
 help: ## help
 	@grep -E '^[a-zA-Z00-9_%-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-18s\033[0m %s\n", $$1, $$2}'
+
+check:
+	@if [ "Linux" != "$(shell uname -s)" ]; then \
+		echo "error: must be on Linux"; \
+		exit 1; \
+	fi
